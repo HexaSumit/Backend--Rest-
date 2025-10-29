@@ -1,0 +1,13 @@
+.container{
+    background-color: rgb(138, 138, 241);
+    margin:2px
+}
+.user{
+    text-decoration: underline;
+    font-style: italic;
+    color:white;
+}
+.content{
+    font-weight: bold;
+    font-size: large;
+}
