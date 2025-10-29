@@ -1,0 +1,28 @@
+# FLOW Of Project
+
+
+## INDEX.JS --> CONSISTS OF ALL ROUTING LOGIC
+
+# 1
+ROUTE -> /POST --> SAARI POST SHOW HOGI 
+INDEX.EJS-> HTML PAGE FOR SHOWING ALL POSTS
+
+
+# 2
+ROUTE -> /POSTS/NEW ----> IT HAS FORM WHICH TAKES USERNAME AND USER CONTENT
+NEW.EJS (PAGE) -> FORM WHICH HAS INPUT (USERNAME) AND TEXTAREA AND A SUBMIT BTN
+
+
+# 3
+ROUTE -> /POST/:ID -> FOR UNIQUE/USER SELECTED POST 
+SHOW.EJS -> WHICH SHOWS USER SELECTED POST 
+
+
+
+Folders use
+
+views folder -> contains all Html pages to show data
+
+public folder -> has all styling related thing which is being applied on ejs pages
+
+
