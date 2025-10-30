@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const { v4: uuidv4 } = require('uuid');
+
 const methodOverride = require('method-override')
 
 app.use(methodOverride('_method'))
@@ -21,17 +23,17 @@ app.get('/', (req, res) => {
 
 let posts = [
     {
-        id: 1,
+        id: uuidv4(),
         username: 'Sumit',
         content: 'Hello world! from Sumit :)'
     },
     {
-        id: 2,
+        id: uuidv4(),
         username: 'Bhardwaj',
         content: 'Hello world! from Bhardwaj'
     },
     {
-        id: 3,
+        id: uuidv4(),
         username: 'Mr Sumit Bhardwaj',
         content: 'Hello world! from Sumit Bhardwaj !!'
     },
@@ -46,17 +48,16 @@ app.get('/posts/new', (req, res) => {
 
 app.post('/posts', (req, res) => {
     let { username, content } = req.body;
-    posts.push({ username, content });
+    let id=uuidv4()
+    posts.push({ id,username, content });
     // res.send('Post request Working! Form submitted successfully :)')
     res.redirect('/posts')
 })
 
 app.get('/posts/:id', (req, res) => {
     let { id } = req.params;
-    // console.log(typeof id, id); agar bina number mai convert krke karu toh string id milti hai joki undefined dega
-    id = Number(id)
     let filterdPost = posts.find((p) => p.id === id);
-    // console.log(filterdPost)
+    console.log(filterdPost)
     res.render('show.ejs', { filterdPost })
 })
 
@@ -65,7 +66,6 @@ app.get('/posts/:id', (req, res) => {
 
 app.patch("/posts/:id", (req, res) => {
     let { id } = req.params;
-    id=Number(id)
     let newContent = req.body.content
     let post = posts.find((p) => p.id === id)
     post.content = newContent;
@@ -74,13 +74,16 @@ app.patch("/posts/:id", (req, res) => {
 
 app.get('/posts/:id/edit', (req, res) => {
     let { id } = req.params;
-    id = Number(id)
     let post = posts.find((p) => p.id === id);
     res.render('edit.ejs', { post })
 })
 
 // DELETE
-
+app.delete('/posts/:id',(req,res)=>{
+    let {id}=req.params;
+    posts=posts.filter((p)=>p.id!==id)
+    res.redirect('/posts')
+})
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
