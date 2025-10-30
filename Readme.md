@@ -18,11 +18,16 @@ ROUTE -> /POST/:ID -> FOR UNIQUE/USER SELECTED POST
 SHOW.EJS -> WHICH SHOWS USER SELECTED POST 
 
 
+## EDIT ROUTE
+NPM I METHOD OVERRIDE
+# WE USE METHOD OVERRIDE FOR USING PATCH AND DELETE REQUEST 
 
-Folders use
 
+# Folders use
 views folder -> contains all Html pages to show data
 
 public folder -> has all styling related thing which is being applied on ejs pages
+
+
 
 
