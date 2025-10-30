@@ -1,63 +1,87 @@
-const express=require("express");
-const app=express();
+const express = require("express");
+const app = express();
+const methodOverride = require('method-override')
 
-const port=3000;
+app.use(methodOverride('_method'))
+const port = 3000;
 
-const path=require('path')
+const path = require('path')
 
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 
-app.set("view engine","ejs");
-app.set("views",path.join(__dirname,"views"))
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"))
 
-app.use(express.static(path.join(__dirname,"public")))
+app.use(express.static(path.join(__dirname, "public")))
 
 //Home route
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('Enter /posts after localhost:3000 in the url to see content')
 })
 
-let posts=[
+let posts = [
     {
-        id:1,
-        username:'Sumit',
-        content:'Hello world! from Sumit :)'
+        id: 1,
+        username: 'Sumit',
+        content: 'Hello world! from Sumit :)'
     },
     {
-        id:2,
-        username:'Bhardwaj',
-        content:'Hello world! from Bhardwaj'
+        id: 2,
+        username: 'Bhardwaj',
+        content: 'Hello world! from Bhardwaj'
     },
     {
-        id:3,
-        username:'Mr Sumit Bhardwaj',
-        content:'Hello world! from Sumit Bhardwaj !!'
+        id: 3,
+        username: 'Mr Sumit Bhardwaj',
+        content: 'Hello world! from Sumit Bhardwaj !!'
     },
 ]
-app.get('/posts',(req,res)=>{
-    res.render('index.ejs',{posts})   
+app.get('/posts', (req, res) => {
+    res.render('index.ejs', { posts })
 })
 
-app.get('/posts/new',(req,res)=>{
+app.get('/posts/new', (req, res) => {
     res.render('form.ejs')
 })
 
-app.post('/posts',(req,res)=>{
-    let {username,content}=req.body;
-    posts.push({username,content});
+app.post('/posts', (req, res) => {
+    let { username, content } = req.body;
+    posts.push({ username, content });
     // res.send('Post request Working! Form submitted successfully :)')
     res.redirect('/posts')
 })
 
-app.get('/posts/:id',(req,res)=>{
-    let {id}=req.params;
+app.get('/posts/:id', (req, res) => {
+    let { id } = req.params;
     // console.log(typeof id, id); agar bina number mai convert krke karu toh string id milti hai joki undefined dega
     id = Number(id)
-    let filterdPost=posts.find((p)=>p.id===id);
+    let filterdPost = posts.find((p) => p.id === id);
     // console.log(filterdPost)
-    res.render('show.ejs',{filterdPost})
+    res.render('show.ejs', { filterdPost })
 })
 
-app.listen(port,()=>{
+
+//Edit route
+
+app.patch("/posts/:id", (req, res) => {
+    let { id } = req.params;
+    id=Number(id)
+    let newContent = req.body.content
+    let post = posts.find((p) => p.id === id)
+    post.content = newContent;
+    res.redirect('/posts')
+})
+
+app.get('/posts/:id/edit', (req, res) => {
+    let { id } = req.params;
+    id = Number(id)
+    let post = posts.find((p) => p.id === id);
+    res.render('edit.ejs', { post })
+})
+
+// DELETE
+
+
+app.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
 })
